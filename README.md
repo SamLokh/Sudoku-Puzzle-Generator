@@ -9,3 +9,7 @@ First it fills in the diagonal boxes(3x3) with random numbers while following th
 
 **IMPOTANT:
 The program fails when a puzzle configuration is reached, where the random number generated does not fit in a cell because some Sudoku rule(either row, col or box) is not satisfied and the Random Function (which has the system clock time as its seed) keeps on generating the same set of invalid random numbers. To counter this block, I set up a system to restart the program from scratch when such a block occurs but than I saw that this block occurs quite often and it depends on the Random Function.
+
+**UPDATE:
+So apparently, Sudoku generators are supposed to take a random (and mostly large) amount of time to generate authentic puzzles because of the randomness and stuff, as I read that the developer of a bestselling Sudoku game (either on the play store or the app store) leaves his Sudoku puzzle generator program running overnight to generate Sudoku puzzles. 
+So, generating a few base puzzles and using them as seeds for generating new puzzles, seems to be the best option.
