@@ -7,9 +7,13 @@
 #include <stdlib.h>
 #include<ctype.h>
 #include<cstdlib>
-#include<dos.h>
-#include<windows.h>
+//#include<dos.h>
+//#include<windows.h>
 //#include <chrono>
+
+#include <time.h>
+#include <vector>
+#include <fstream>
 
 #include<random>
 
@@ -968,10 +972,64 @@ void display(int mat[10][10],string msg)
     void matrixdispselector()      // so that I won't have to make the matrices public.
     {
         int ch;
+        for (int i=0; i<9; i++)
+		{
+			cout<<endl;
+			for (int j=0; j<9; j++)
+			{
+				cout<<mat[i][j];
+			}
+		}
         cout<<"\n Enter which matrix you want to be display : ";
         cout<<"\n\t 1. Mat \n\t 2. Puzzmat \n\t 3. Dummy \n";
         cin>>ch;
-
+	
+	//22 April, 2020 Update:
+	
+	ofstream fout;
+	ifstream fin;
+	string line;
+	vector<string> alreadyEnteredBasePuzzles;
+	fin.open("/home/s/Sudoku_generator/Generated_Puzzles/BasePuzzles.txt");
+	while (fin)
+	{
+		getline(fin, line);
+		alreadyEnteredBasePuzzles.push_back(line);
+	}
+	fin.close();
+	line = "";
+	fout.open("/home/s/Sudoku_generator/Generated_Puzzles/BasePuzzles.txt", ios::app);
+	if (fout)
+	{
+		for (int i=0; i<9; i++)
+		{
+			for (int j=0; j<9; j++)
+			{
+				string temp = to_string(mat[i][j]);
+				//fout<<mat[i][j];
+				line.append(temp);
+			}
+		}
+		//fout<<endl;
+	}
+	int flag = 0;
+	for (int i=0; i<alreadyEnteredBasePuzzles.size();i++)
+	{
+		if (alreadyEnteredBasePuzzles[i].compare(line) == 0)
+		{
+			cout<<"Whoa! The puzzle already exists! What are the odds!";
+			flag = 1;
+			break;
+		}
+	}
+	if (flag != 1)
+	{
+		fout<<line<<endl;
+		flag = 0;
+	}
+	fout.close();
+	//22 April, 2020 Update;
+		
         string msg;
 
         switch(ch)
@@ -1001,7 +1059,10 @@ void display(int mat[10][10],string msg)
 int main()
 {
     int times=-1;;
-    srand(GetTickCount());
+    //srand(GetTickCount());
+    struct timespec ts;
+    
+    srand(clock_gettime(CLOCK_MONOTONIC, &ts));
 
     label1:
 
